@@ -1,30 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Simpo3D</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simpo3D</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4FC3F7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <div class="container">
-        <aside>
-            <h2>Simpo3D1</h2>
-        </aside>
-        <main>
-            <h1>Calculadora</h1>
-            <div class="grid"><input id="peso" placeholder="Peso g"><input id="filamento" value="120"><input id="tempo"
-                    placeholder="Horas"><input id="potencia" value="350"><input id="energia" value="1"><input id="emb"
-                    value="0"><input id="outros" value="0"><input id="margem" value="60"></div><button
-                onclick="calcular()">Calcular</button>
-            <div class="card">Custo Total <span id="ct"></span></div>
-            <div class="card">Venda <span id="pv"></span></div>
-            <div class="card">Lucro <span id="lu"></span></div>
-        </main>
-    </div>
-    <script src="js/script.js"></script>
-</body>
+  <div class="container">
+    <aside>
+      <h2>Simpo3D</h2>
+      <p>Calculadora de custos para impressão 3D</p>
+    </aside>
+    <main>
+      <h1>Calculadora 3D</h1>
 
+      <div class="form-section">
+        <h3>Filamento</h3>
+        <div class="grid">
+          <label>Peso usado (g)
+            <input id="peso" type="number" placeholder="Ex: 50">
+          </label>
+          <label>Preço do filamento (R$/kg)
+            <input id="filamento" type="number" value="120">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Energia</h3>
+        <div class="grid">
+          <label>Tempo de impressão (h)
+            <input id="tempo" type="number" placeholder="Ex: 3.5">
+          </label>
+          <label>Potência da impressora (W)
+            <input id="potencia" type="number" value="350">
+          </label>
+          <label>Tarifa de energia (R$/kWh)
+            <input id="energia" type="number" value="0.85">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Mão de Obra</h3>
+        <div class="grid">
+          <label>Valor por hora (R$/h)
+            <input id="maoobra_hora" type="number" value="0">
+          </label>
+          <label>Horas trabalhadas (h)
+            <input id="maoobra_tempo" type="number" value="0">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Outros Custos</h3>
+        <div class="grid">
+          <label>Embalagem (R$)
+            <input id="emb" type="number" value="0">
+          </label>
+          <label>Outros custos (R$)
+            <input id="outros" type="number" value="0">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Precificação</h3>
+        <div class="grid">
+          <label>Taxa marketplace (%)
+            <input id="marketplace" type="number" value="15">
+          </label>
+          <label>Margem de lucro desejada (%)
+            <input id="margem" type="number" value="40">
+          </label>
+        </div>
+      </div>
+
+      <button onclick="calcular()">Calcular</button>
+
+      <div id="resultados" class="resultados hidden">
+        <h3>Resultado</h3>
+        <div class="cards">
+          <div class="card"><span class="label">Custo Filamento</span><span class="valor" id="r-filamento"></span></div>
+          <div class="card"><span class="label">Custo Energia</span><span class="valor" id="r-energia"></span></div>
+          <div class="card"><span class="label">Mão de Obra</span><span class="valor" id="r-maoobra"></span></div>
+          <div class="card"><span class="label">Embalagem</span><span class="valor" id="r-emb"></span></div>
+          <div class="card"><span class="label">Outros</span><span class="valor" id="r-outros"></span></div>
+          <div class="card destaque"><span class="label">Custo Total</span><span class="valor" id="r-custo"></span></div>
+          <div class="card"><span class="label">Taxa Marketplace</span><span class="valor" id="r-marketplace"></span></div>
+          <div class="card destaque"><span class="label">Preço de Venda</span><span class="valor" id="r-venda"></span></div>
+          <div class="card lucro"><span class="label">Lucro Líquido</span><span class="valor" id="r-lucro"></span></div>
+          <div class="card lucro"><span class="label">Lucro Real (%)</span><span class="valor" id="r-lucro-pct"></span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
 </html>

@@ -7,35 +7,43 @@ function n(id) {
 }
 
 function set(id, v) {
-  document.getElementById(id).textContent = brl(v);
+  document.getElementById(id).textContent = v;
 }
 
 function calcular() {
   const custoFilamento = (n('peso') / 1000) * n('filamento');
   const custoEnergia   = (n('tempo') * n('potencia') / 1000) * n('energia');
+  const maoObra        = n('maoobra_hora') * n('maoobra_tempo');
   const embalagem      = n('emb');
   const outros         = n('outros');
 
-  const totalCusto = custoFilamento + custoEnergia + embalagem + outros;
+  const totalCusto = custoFilamento + custoEnergia + maoObra + embalagem + outros;
 
-  // Preço de venda considerando margem de lucro desejada
   const margem      = n('margem') / 100;
   const marketplace = n('marketplace') / 100;
 
-  // O preço de venda cobre o custo + margem + taxa marketplace
-  const precoVenda = totalCusto / (1 - margem - marketplace);
+  // Preço de venda que cobre custo + margem de lucro + taxa marketplace
+  const divisor = 1 - margem - marketplace;
+  if (divisor <= 0) {
+    alert('A soma de margem + marketplace não pode ser 100% ou mais.');
+    return;
+  }
 
+  const precoVenda      = totalCusto / divisor;
   const taxaMarketplace = precoVenda * marketplace;
   const lucroLiquido    = precoVenda - totalCusto - taxaMarketplace;
+  const lucroPercReal   = precoVenda > 0 ? (lucroLiquido / precoVenda) * 100 : 0;
 
-  set('r-filamento',  custoFilamento);
-  set('r-energia',    custoEnergia);
-  set('r-emb',        embalagem);
-  set('r-outros',     outros);
-  set('r-custo',      totalCusto);
-  set('r-venda',      precoVenda);
-  set('r-marketplace', taxaMarketplace);
-  set('r-lucro',      lucroLiquido);
+  set('r-filamento',   brl(custoFilamento));
+  set('r-energia',     brl(custoEnergia));
+  set('r-maoobra',     brl(maoObra));
+  set('r-emb',         brl(embalagem));
+  set('r-outros',      brl(outros));
+  set('r-custo',       brl(totalCusto));
+  set('r-marketplace', brl(taxaMarketplace));
+  set('r-venda',       brl(precoVenda));
+  set('r-lucro',       brl(lucroLiquido));
+  set('r-lucro-pct',   lucroPercReal.toFixed(1) + '%');
 
   document.getElementById('resultados').classList.remove('hidden');
 }
