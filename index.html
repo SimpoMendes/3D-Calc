@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Simpo3D</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside>
+            <h2>Simpo3D1</h2>
+        </aside>
+        <main>
+            <h1>Calculadora</h1>
+            <div class="grid"><input id="peso" placeholder="Peso g"><input id="filamento" value="120"><input id="tempo"
+                    placeholder="Horas"><input id="potencia" value="350"><input id="energia" value="1"><input id="emb"
+                    value="0"><input id="outros" value="0"><input id="margem" value="60"></div><button
+                onclick="calcular()">Calcular</button>
+            <div class="card">Custo Total <span id="ct"></span></div>
+            <div class="card">Venda <span id="pv"></span></div>
+            <div class="card">Lucro <span id="lu"></span></div>
+        </main>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

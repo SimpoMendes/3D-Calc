@@ -1,0 +1,41 @@
+body {
+    background: #121212;
+    color: #fff;
+    font-family: Arial
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 200px 1fr
+}
+
+aside {
+    background: #0a0a0a;
+    padding: 20px;
+    border-right: 2px solid #4FC3F7
+}
+
+main {
+    padding: 20px
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px
+}
+
+input,
+button {
+    padding: 10px
+}
+
+button {
+    background: #4FC3F7
+}
+
+.card {
+    margin-top: 10px;
+    background: #222;
+    padding: 10px
+}
