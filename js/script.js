@@ -15,9 +15,10 @@ function calcular() {
   const custoEnergia   = (n('tempo') * n('potencia') / 1000) * n('energia');
   const maoObra        = n('maoobra_hora') * n('maoobra_tempo');
   const embalagem      = n('emb');
+  const frete          = n('frete');
   const outros         = n('outros');
 
-  const totalCusto = custoFilamento + custoEnergia + maoObra + embalagem + outros;
+  const totalCusto = custoFilamento + custoEnergia + maoObra + embalagem + frete + outros;
 
   const margem      = n('margem') / 100;
   const marketplace = n('marketplace') / 100;
@@ -38,6 +39,7 @@ function calcular() {
   set('r-energia',     brl(custoEnergia));
   set('r-maoobra',     brl(maoObra));
   set('r-emb',         brl(embalagem));
+  set('r-frete',       brl(frete));
   set('r-outros',      brl(outros));
   set('r-custo',       brl(totalCusto));
   set('r-marketplace', brl(taxaMarketplace));
