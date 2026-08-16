@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simpo3D</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #121212;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    aside {
+      background: #0a0a0a;
+      padding: 24px 16px;
+      border-right: 2px solid #4FC3F7;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    aside h2 { color: #4FC3F7; font-size: 1.5rem; }
+    aside p { color: #aaa; font-size: 0.85rem; line-height: 1.4; }
+
+    main { padding: 28px 32px; max-width: 800px; }
+
+    h1 { font-size: 1.6rem; margin-bottom: 24px; color: #4FC3F7; }
+
+    h3 {
+      font-size: 0.95rem;
+      color: #4FC3F7;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-section {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    label { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: #ccc; }
+
+    input {
+      padding: 10px 12px;
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: #4FC3F7; }
+
+    button {
+      margin-top: 4px;
+      padding: 12px 32px;
+      background: #4FC3F7;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #81D4FA; }
+
+    .resultados { margin-top: 24px; }
+    .resultados h3 { margin-bottom: 16px; }
+    .hidden { display: none; }
+
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .card {
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card .label { font-size: 0.85rem; color: #aaa; }
+    .card .valor { font-size: 1rem; font-weight: bold; color: #fff; }
+
+    .card.destaque { border-color: #4FC3F7; background: #1a2a33; }
+    .card.destaque .valor { color: #4FC3F7; }
+
+    .card.lucro { border-color: #66BB6A; background: #1a2a1a; }
+    .card.lucro .valor { color: #66BB6A; }
+
+    @media (max-width: 600px) {
+      .container { grid-template-columns: 1fr; }
+      aside { display: none; }
+      main { padding: 16px; }
+      .grid, .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside>
+      <h2>Simpo3D</h2>
+      <p>Calculadora de custos para impressão 3D</p>
+    </aside>
+    <main>
+      <h1>Calculadora 3D</h1>
+
+      <div class="form-section">
+        <h3>Filamento</h3>
+        <div class="grid">
+          <label>Peso usado (g)
+            <input id="peso" type="number" placeholder="Ex: 50">
+          </label>
+          <label>Preço do filamento (R$/kg)
+            <input id="filamento" type="number" value="120">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Energia</h3>
+        <div class="grid">
+          <label>Tempo de impressão (h)
+            <input id="tempo" type="number" placeholder="Ex: 3.5">
+          </label>
+          <label>Potência da impressora (W)
+            <input id="potencia" type="number" value="350">
+          </label>
+          <label>Tarifa de energia (R$/kWh)
+            <input id="energia" type="number" value="0.85">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Mão de Obra</h3>
+        <div class="grid">
+          <label>Valor por hora (R$/h)
+            <input id="maoobra_hora" type="number" value="0">
+          </label>
+          <label>Horas trabalhadas (h)
+            <input id="maoobra_tempo" type="number" value="0">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Outros Custos</h3>
+        <div class="grid">
+          <label>Embalagem (R$)
+            <input id="emb" type="number" value="0">
+          </label>
+          <label>Frete (R$)
+            <input id="frete" type="number" value="0">
+          </label>
+          <label>Outros custos (R$)
+            <input id="outros" type="number" value="0">
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Precificação</h3>
+        <div class="grid">
+          <label>Taxa marketplace (%)
+            <input id="marketplace" type="number" value="15">
+          </label>
+          <label>Margem de lucro desejada (%)
+            <input id="margem" type="number" value="40">
+          </label>
+        </div>
+      </div>
+
+      <button onclick="calcular()">Calcular</button>
+
+      <div id="resultados" class="resultados hidden">
+        <h3>Resultado</h3>
+        <div class="cards">
+          <div class="card"><span class="label">Custo Filamento</span><span class="valor" id="r-filamento"></span></div>
+          <div class="card"><span class="label">Custo Energia</span><span class="valor" id="r-energia"></span></div>
+          <div class="card"><span class="label">Mão de Obra</span><span class="valor" id="r-maoobra"></span></div>
+          <div class="card"><span class="label">Embalagem</span><span class="valor" id="r-emb"></span></div>
+          <div class="card"><span class="label">Frete</span><span class="valor" id="r-frete"></span></div>
+          <div class="card"><span class="label">Outros</span><span class="valor" id="r-outros"></span></div>
+          <div class="card destaque"><span class="label">Custo Total</span><span class="valor" id="r-custo"></span></div>
+          <div class="card"><span class="label">Taxa Marketplace</span><span class="valor" id="r-marketplace"></span></div>
+          <div class="card destaque"><span class="label">Preço de Venda</span><span class="valor" id="r-venda"></span></div>
+          <div class="card lucro"><span class="label">Lucro Líquido</span><span class="valor" id="r-lucro"></span></div>
+          <div class="card lucro"><span class="label">Lucro Real (%)</span><span class="valor" id="r-lucro-pct"></span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>
+    function brl(v) {
+      return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function n(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function set(id, v) {
+      document.getElementById(id).textContent = v;
+    }
+
+    function calcular() {
+      const custoFilamento = (n('peso') / 1000) * n('filamento');
+      const custoEnergia   = (n('tempo') * n('potencia') / 1000) * n('energia');
+      const maoObra        = n('maoobra_hora') * n('maoobra_tempo');
+      const embalagem      = n('emb');
+      const frete          = n('frete');
+      const outros         = n('outros');
+
+      const totalCusto = custoFilamento + custoEnergia + maoObra + embalagem + frete + outros;
+
+      const margem      = n('margem') / 100;
+      const marketplace = n('marketplace') / 100;
+
+      const divisor = 1 - margem - marketplace;
+      if (divisor <= 0) {
+        alert('A soma de margem + marketplace não pode ser 100% ou mais.');
+        return;
+      }
+
+      const precoVenda      = totalCusto / divisor;
+      const taxaMarketplace = precoVenda * marketplace;
+      const lucroLiquido    = precoVenda - totalCusto - taxaMarketplace;
+      const lucroPercReal   = precoVenda > 0 ? (lucroLiquido / precoVenda) * 100 : 0;
+
+      set('r-filamento',   brl(custoFilamento));
+      set('r-energia',     brl(custoEnergia));
+      set('r-maoobra',     brl(maoObra));
+      set('r-emb',         brl(embalagem));
+      set('r-frete',       brl(frete));
+      set('r-outros',      brl(outros));
+      set('r-custo',       brl(totalCusto));
+      set('r-marketplace', brl(taxaMarketplace));
+      set('r-venda',       brl(precoVenda));
+      set('r-lucro',       brl(lucroLiquido));
+      set('r-lucro-pct',   lucroPercReal.toFixed(1) + '%');
+
+      document.getElementById('resultados').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

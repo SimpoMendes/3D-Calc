@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Gerar Ícones</title></head>
+<body>
+<p>Gerando ícones... os downloads vão iniciar automaticamente.</p>
+<canvas id="c"></canvas>
+<script>
+function gerarIcone(size) {
+  const canvas = document.getElementById('c');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Fundo
+  ctx.fillStyle = '#121212';
+  ctx.fillRect(0, 0, size, size);
+
+  // Círculo azul
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size * 0.42, 0, Math.PI * 2);
+  ctx.fillStyle = '#4FC3F7';
+  ctx.fill();
+
+  // Letra S
+  ctx.fillStyle = '#121212';
+  ctx.font = `bold ${size * 0.45}px Arial`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('S', size / 2, size / 2);
+
+  // Download
+  const a = document.createElement('a');
+  a.download = `icon-${size}.png`;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+gerarIcone(192);
+setTimeout(() => gerarIcone(512), 500);
+</script>
+</body>
+</html>
