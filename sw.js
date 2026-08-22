@@ -1,4 +1,4 @@
-const CACHE = 'simpo3d-v2';
+const CACHE = 'simpo3d-v3';
 const FILES = [
   './',
   './index.html',
