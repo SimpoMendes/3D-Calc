@@ -18,7 +18,9 @@ function calcular() {
   const frete          = n('frete');
   const outros         = n('outros');
 
-  const totalCusto = custoFilamento + custoEnergia + maoObra + embalagem + frete + outros;
+  const totalCustoBruto = custoFilamento + custoEnergia + maoObra + embalagem + frete + outros;
+  const qtd        = Math.max(n('qtd') || 1, 1);
+  const totalCusto = totalCustoBruto / qtd;
 
   const margem      = n('margem') / 100;
   const marketplace = n('marketplace') / 100;
@@ -41,6 +43,7 @@ function calcular() {
   set('r-emb',         brl(embalagem));
   set('r-frete',       brl(frete));
   set('r-outros',      brl(outros));
+  set('r-custo-lote',  brl(totalCustoBruto));
   set('r-custo',       brl(totalCusto));
   set('r-marketplace', brl(taxaMarketplace));
   set('r-venda',       brl(precoVenda));
