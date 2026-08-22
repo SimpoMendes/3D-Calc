@@ -24,15 +24,16 @@ function calcular() {
 
   const margem      = n('margem') / 100;
   const marketplace = n('marketplace') / 100;
+  const vendaManual = n('venda');
 
-  // Preço de venda que cobre custo + margem de lucro + taxa marketplace
   const divisor = 1 - margem - marketplace;
   if (divisor <= 0) {
     alert('A soma de margem + marketplace não pode ser 100% ou mais.');
     return;
   }
 
-  const precoVenda      = totalCusto / divisor;
+  const precoSugerido   = totalCusto / divisor;
+  const precoVenda      = vendaManual > 0 ? vendaManual : precoSugerido;
   const taxaMarketplace = precoVenda * marketplace;
   const lucroLiquido    = precoVenda - totalCusto - taxaMarketplace;
   const lucroPercReal   = precoVenda > 0 ? (lucroLiquido / precoVenda) * 100 : 0;
